@@ -109,6 +109,7 @@
   };
   home.packages = with pkgs; [
     kitty
+    exa
   ];
 
   # Enable home-manager and git
