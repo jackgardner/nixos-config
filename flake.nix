@@ -9,6 +9,10 @@
     home-manager.url = "github:nix-community/home-manager";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
 
+
+    darwin.url = "github:LnL7/nix-darwin";
+    darwin.inputs.nixpkgs.follows = "nixpkgs";
+
     # TODO: Add any other flake you might need
     hardware.url = "github:nixos/nixos-hardware";
 
@@ -18,25 +22,43 @@
 
     hyprland.url = "github:hyprwm/hyprland/v0.23.0beta";
     hyprwm-contrib.url = "github:hyprwm/contrib";
-    
+
   };
 
-  outputs = { nixpkgs, home-manager, hyprland, ... }@inputs: {
+  outputs = { nixpkgs, home-manager, hyprland, darwin, ... }@inputs: {
     # NixOS configuration entrypoint
     # Available through 'nixos-rebuild --flake .#your-hostname'
     nixosConfigurations = {
       # FIXME replace with your hostname
-      wormwood = nixpkgs.lib.nixosSystem {
+      woundwort = nixpkgs.lib.nixosSystem {
         specialArgs = { inherit inputs; }; # Pass flake inputs to our config
         # > Our main nixos configuration file <
         modules = [ ./nixos/configuration.nix hyprland.nixosModules.default ];
       };
     };
 
+    darwinConfigurations = {
+        campion = darwin.lib.darwinSystem {
+            system = "aarch64-darwin";
+            modules = [
+                ./hosts/campion/default.nix
+            ];
+        };
+    };
+
     # Standalone home-manager configuration entrypoint
     # Available through 'home-manager --flake .#your-username@your-hostname'
     homeConfigurations = {
-      # FIXME replace with your username@hostname
+
+      "jack@campion" = home-manager.lib.homeManagerConfiguration {
+        useGlobalPkgs = true;
+        useUserPackages = true;
+        extraSpecialArgs = { inherit inputs; }; # Pass flake inputs to our config
+        modules = [
+          ./home-manager/home.nix
+        ];
+      };
+
       "jack@wormwood" = home-manager.lib.homeManagerConfiguration {
         pkgs = nixpkgs.legacyPackages.x86_64-linux; # Home-manager requires 'pkgs' instance
         extraSpecialArgs = { inherit inputs; }; # Pass flake inputs to our config
