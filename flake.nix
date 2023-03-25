@@ -49,6 +49,7 @@
                     #nixpkgs.overlays = overlays;
                     #system.darwinLabel = "${config.system.darwinLabel}@${rev}";
                     networking.hostName = "campion";
+                    nixpkgs.config.allowUnfree = true;
                     home-manager.useGlobalPkgs = true;
                     home-manager.useUserPackages = true;
                     home-manager.extraSpecialArgs = { inherit inputs; };
@@ -56,8 +57,9 @@
                 }
 
                 ./hosts/campion/default.nix
+                ./modules/fonts.nix
             ];
-            inputs = { inherit darwin; };
+            inputs = { inherit darwin nixpkgs home-manager; };
         };
     };
 
@@ -71,15 +73,15 @@
         pkgs = nixpkgs.legacyPackages.x86_64-linux; # Home-manager requires 'pkgs' instance
         extraSpecialArgs = { inherit inputs; }; # Pass flake inputs to our config
         # > Our main home-manager configuration file <
-        
-        modules = [ 
+
+        modules = [
 		./home-manager/home.nix
 		{
 		  home = {
                     username = "jack";
 		    homeDirectory = "/home/jack";
                   };
-		} 
+		}
 	];
       };
     };

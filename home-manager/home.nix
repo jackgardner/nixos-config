@@ -11,6 +11,7 @@
     # ./nvim.nix
   ];
 
+  nixpkgs.config.allowUnfree = true;
 
 
   home = {
@@ -107,8 +108,9 @@
       italic-text = "always";
     };
   };
+
+
   home.packages = with pkgs; [
-    kitty
     exa
   ];
 
