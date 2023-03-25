@@ -168,6 +168,22 @@
         "type": "github"
       }
     },
+    "nixpkgs-darwin": {
+      "locked": {
+        "lastModified": 1679682625,
+        "narHash": "sha256-PdlljFx0Da39I8GwCIH23TpW/wwaUrsV9rqUV+kkC5U=",
+        "owner": "NixOS",
+        "repo": "nixpkgs",
+        "rev": "f907ae8aece5eb2f3217e69833f1d67ed2cfa8ce",
+        "type": "github"
+      },
+      "original": {
+        "owner": "NixOS",
+        "ref": "nixpkgs-22.11-darwin",
+        "repo": "nixpkgs",
+        "type": "github"
+      }
+    },
     "nixpkgs-lib": {
       "locked": {
         "lastModified": 1655599917,
@@ -180,6 +196,22 @@
       "original": {
         "owner": "nix-community",
         "repo": "nixpkgs.lib",
+        "type": "github"
+      }
+    },
+    "nixpkgs-master": {
+      "locked": {
+        "lastModified": 1679703821,
+        "narHash": "sha256-kXIxmdQqyzGDxs/tvImToC9CHxjuBy0bcQR8IMaAYBY=",
+        "owner": "NixOS",
+        "repo": "nixpkgs",
+        "rev": "3386631c483510279cfb640f11115a80e2851fa7",
+        "type": "github"
+      },
+      "original": {
+        "owner": "NixOS",
+        "ref": "master",
+        "repo": "nixpkgs",
         "type": "github"
       }
     },
@@ -223,7 +255,9 @@
         "hyprland": "hyprland",
         "hyprwm-contrib": "hyprwm-contrib",
         "nix-colors": "nix-colors",
-        "nixpkgs": "nixpkgs_3"
+        "nixpkgs": "nixpkgs_3",
+        "nixpkgs-darwin": "nixpkgs-darwin",
+        "nixpkgs-master": "nixpkgs-master"
       }
     },
     "utils": {

@@ -4,6 +4,8 @@
   inputs = {
     # Nixpkgs
     nixpkgs.url = "github:nixos/nixpkgs/nixos-22.11";
+    nixpkgs-darwin.url = "github:NixOS/nixpkgs/nixpkgs-22.11-darwin";
+    nixpkgs-master.url = "github:NixOS/nixpkgs/master";
 
     # Home manager
     home-manager.url = "github:nix-community/home-manager";
@@ -25,7 +27,17 @@
 
   };
 
-  outputs = { nixpkgs, home-manager, hyprland, darwin, ... }@inputs: {
+  outputs = { nixpkgs, nixpkgs-darwin, nixpkgs-master, home-manager, hyprland, darwin, ... }@inputs: {
+    genPkgs = system: import nixpkgs {
+        inherit system;
+        config.allowUnfree = true;
+    };
+
+    genDarwinPkgsWithOverlays = system: import nixpkgs-darwin {
+        inherit system;
+        config.allowUnfree = true;
+    };
+
     # NixOS configuration entrypoint
     # Available through 'nixos-rebuild --flake .#your-hostname'
     nixosConfigurations = {
@@ -41,8 +53,20 @@
         campion = darwin.lib.darwinSystem {
             system = "aarch64-darwin";
             modules = [
+                home-manager.darwinModules.home-manager
+                {
+                    #nixpkgs.overlays = overlays;
+                    #system.darwinLabel = "${config.system.darwinLabel}@${rev}";
+                    networking.hostName = "campion";
+                    home-manager.useGlobalPkgs = true;
+                    home-manager.useUserPackages = true;
+                    home-manager.extraSpecialArgs = { inherit inputs; };
+                    home-manager.users.jack = import ./home-manager/home.nix;
+                }
+
                 ./hosts/campion/default.nix
             ];
+            inputs = { inherit darwin; };
         };
     };
 
@@ -50,14 +74,7 @@
     # Available through 'home-manager --flake .#your-username@your-hostname'
     homeConfigurations = {
 
-      "jack@campion" = home-manager.lib.homeManagerConfiguration {
-        useGlobalPkgs = true;
-        useUserPackages = true;
-        extraSpecialArgs = { inherit inputs; }; # Pass flake inputs to our config
-        modules = [
-          ./home-manager/home.nix
-        ];
-      };
+
 
       "jack@wormwood" = home-manager.lib.homeManagerConfiguration {
         pkgs = nixpkgs.legacyPackages.x86_64-linux; # Home-manager requires 'pkgs' instance

@@ -33,10 +33,7 @@
     };
   };
 
-  # TODO: Set your username
   home = {
-    username = "jack";
-    homeDirectory = "/home/jack";
     sessionVariables = {
       EDITOR = "nvim";
     };
@@ -58,7 +55,27 @@
       }
     ];
   };
-  programs.tmux.enable = true;
+  programs.tmux = {
+    enable = true;
+    keyMode = "vi";
+    clock24 = true;
+    historyLimit = 10000;
+    plugins = with pkgs.tmuxPlugins; [
+      vim-tmux-navigator
+      gruvbox
+    ];
+    extraConfig = ''
+      set -sg escape-time 0 # makes vim esc usable
+      new-session -s main
+      bind-key -n C-e send-prefix
+      bind '"' split-window -c "#{pane_current_path}"
+      bind % split-window -h -c "#{pane_current_path}"
+      bind c new-window -c "#{pane_current_path}"
+      set-option -g default-terminal "tmux-256color"
+      set -as terminal-overrides ',xterm*:Tc:sitm=\E[3m'
+    '';
+  };
+
   programs.bat = {
     enable = true;
     config = {
@@ -72,11 +89,11 @@
 	firefox
         thunderbird
         bitwarden
-        spotify 
+        spotify
 	steam
-	
+
   ];
- 
+
   # Enable home-manager and git
   programs.home-manager.enable = true;
   programs.git.enable = true;
@@ -84,7 +101,7 @@
   programs.git.userEmail = "me@jackg.se";
   programs.git.userName = "Jack Gardner";
 
-  
+
   # Nicely reload system units when changing configs
   systemd.user.startServices = "sd-switch";
 
