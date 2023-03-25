@@ -11,27 +11,7 @@
     # ./nvim.nix
   ];
 
-  nixpkgs = {
-    # You can add overlays here
-    overlays = [
-      # If you want to use overlays exported from other flakes:
-      # neovim-nightly-overlay.overlays.default
 
-      # Or define it inline, for example:
-      # (final: prev: {
-      #   hi = final.hello.overrideAttrs (oldAttrs: {
-      #     patches = [ ./change-hello-to-hi.patch ];
-      #   });
-      # })
-    ];
-    # Configure your nixpkgs instance
-    config = {
-      # Disable if you don't want unfree packages
-      allowUnfree = true;
-      # Workaround for https://github.com/nix-community/home-manager/issues/2942
-      allowUnfreePredicate = (_: true);
-    };
-  };
 
   home = {
     sessionVariables = {
@@ -43,10 +23,51 @@
   programs.neovim.enable = true;
   programs.fish = {
     enable = true;
+    shellAliases = {
+        drogo = "cd ~/go/src/github.com/lakahq/drogo";
+        nix-config = "cd ~/Development/nixos-config";
+        ls = "exa";
+    };
     plugins = [
       {
+        name = "fisher";
+        src = pkgs.fetchFromGitHub {
+          owner = "jorgebucaran";
+          repo = "fisher";
+          rev = "67bec738dbec2442d05d09ef72b2be82acb1d774";
+          sha256 = "1hrl22dd0aaszdanhvddvqz3aq40jp9zi2zn0v1hjnf7fx4bgpma";
+      	};
+      }
+      {
+        name = "bass";
+        src = pkgs.fetchFromGitHub {
+          owner = "edc";
+          repo = "bass";
+          rev = "master";
+          sha256 = "fl4/Pgtkojk5AE52wpGDnuLajQxHoVqyphE90IIPYFU=";
+      	};
+      }
+      {
+        name = "fzf";
+        src = pkgs.fetchFromGitHub {
+          owner = "jethrokuan";
+          repo = "fzf";
+          rev = "master";
+          sha256 = "28QW/WTLckR4lEfHv6dSotwkAKpNJFCShxmKFGQQ1Ew=";
+      	};
+      }
+      {
+        name = "hydro";
+        src = pkgs.fetchFromGitHub {
+          owner = "jorgebucaran";
+          repo = "hydro";
+          rev = "master";
+          sha256 = "zmEa/GJ9jtjzeyJUWVNSz/wYrU2FtqhcHdgxzi6ANHg=";
+      	};
+      }
+      {
         name = "nix-env";
-	src = pkgs.fetchFromGitHub {
+	    src = pkgs.fetchFromGitHub {
           owner = "lilyball";
           repo = "nix-env.fish";
           rev = "00c6cc762427efe08ac0bd0d1b1d12048d3ca727";
@@ -67,7 +88,10 @@
     extraConfig = ''
       set -sg escape-time 0 # makes vim esc usable
       new-session -s main
-      bind-key -n C-e send-prefix
+      unbind C-b
+      set -g prefix C-a
+      bind -n C-a send-prefix
+
       bind '"' split-window -c "#{pane_current_path}"
       bind % split-window -h -c "#{pane_current_path}"
       bind c new-window -c "#{pane_current_path}"
@@ -84,14 +108,7 @@
     };
   };
   home.packages = with pkgs; [
-        kitty
-	hello
-	firefox
-        thunderbird
-        bitwarden
-        spotify
-	steam
-
+    kitty
   ];
 
   # Enable home-manager and git

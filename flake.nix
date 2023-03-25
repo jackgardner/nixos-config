@@ -28,15 +28,6 @@
   };
 
   outputs = { nixpkgs, nixpkgs-darwin, nixpkgs-master, home-manager, hyprland, darwin, ... }@inputs: {
-    genPkgs = system: import nixpkgs {
-        inherit system;
-        config.allowUnfree = true;
-    };
-
-    genDarwinPkgsWithOverlays = system: import nixpkgs-darwin {
-        inherit system;
-        config.allowUnfree = true;
-    };
 
     # NixOS configuration entrypoint
     # Available through 'nixos-rebuild --flake .#your-hostname'
