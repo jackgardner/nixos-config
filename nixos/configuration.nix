@@ -1,7 +1,7 @@
 # This is your system's configuration file.
 # Use this to configure your system environment (it replaces /etc/nixos/configuration.nix)
 
-{ inputs, lib, config, pkgs, ... }: {
+{ inputs, lib, config, hyprland, pkgs, ... }: {
   # You can import other NixOS modules here
   imports = [
     # If you want to use modules from other flakes (such as nixos-hardware):
@@ -21,6 +21,9 @@
       # If you want to use overlays exported from other flakes:
       # neovim-nightly-overlay.overlays.default
 
+	(final: prev: {
+		waybar = hyprland.packages.waybar-hyprland;
+	})
       # Or define it inline, for example:
       # (final: prev: {
       #   hi = final.hello.overrideAttrs (oldAttrs: {
@@ -56,7 +59,6 @@
 
   console.keyMap = "uk";
   # TODO: Set your hostname
-  networking.hostName = "wormwood";
   networking.networkmanager.enable = true;
 
   time.timeZone = "Europe/London";
@@ -71,15 +73,18 @@
   boot.loader.efi.efiSysMountPoint = "/boot/efi";
 
   services.xserver.enable = true;
-  
+
   services.xserver.displayManager.gdm.enable = true;
-  services.xserver.desktopManager.gnome.enable = true;
+  services.xserver.displayManager.gdm.wayland = false;
+  services.xserver.desktopManager.plasma5.enable = true;
+
+  # services.xserver.desktopManager.gnome.enable = true;
 
   services.xserver = {
     layout = "gb";
     xkbVariant = "";
   };
-  programs.hyprland.enable = false;
+  programs.hyprland.enable = true;
   # TODO: Configure your system-wide user settings (groups, etc), add more users as needed.
   users.users = {
     # FIXME: Replace with your username

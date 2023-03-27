@@ -28,6 +28,9 @@
     fishPlugins.hydro
     #fishPlugins.grc
     grc
+    jetbrains.goland
+    jetbrains.datagrip
+    wofi
   ];
 
   # Enable home-manager and git
@@ -39,6 +42,25 @@
 
 
   # Add stuff for your user as you see fit:
+
+  programs.waybar = {
+    enable = true;
+    systemd = {
+      enable = true;
+#      target = "sway-session.target";
+    };
+
+    settings = {
+
+       Main = {
+	 modules-left = with config; [
+	];
+       };
+    };
+  };
+  
+
+  services.swayidle.enable = true;
   programs.neovim.enable = true;
   programs.fish = {
     enable = true;
@@ -75,8 +97,8 @@
       }
     ];
   };
-
   programs.tmate.enable = true;
+  programs.firefox.enable = true;
   programs.tmux = {
     enable = true;
     keyMode = "vi";
@@ -107,7 +129,8 @@
     };
   };
 
-
+  # programs.steam.enable = true;
+  # Enable home-manager and git
 
 
   # Nicely reload system units when changing configs

@@ -34,9 +34,21 @@
     nixosConfigurations = {
       # FIXME replace with your hostname
       woundwort = nixpkgs.lib.nixosSystem {
-        specialArgs = { inherit inputs; }; # Pass flake inputs to our config
+        specialArgs = { inherit inputs hyprland; }; # Pass flake inputs to our config
         # > Our main nixos configuration file <
-        modules = [ ./nixos/configuration.nix hyprland.nixosModules.default ];
+        modules = [ 
+	  ./nixos/configuration.nix 
+	  hyprland.nixosModules.default 
+	  inputs.home-manager.nixosModules.home-manager
+          {
+	    networking.hostName = "woundwort";
+	    home-manager.useGlobalPkgs = true;
+	    home-manager.useUserPackages = true;
+	    home-manager.extraSpecialArgs = { inherit inputs; };
+	    home-manager.users.jack = import ./home-manager/home.nix;
+	  }
+
+	];
       };
     };
 
@@ -65,25 +77,6 @@
 
     # Standalone home-manager configuration entrypoint
     # Available through 'home-manager --flake .#your-username@your-hostname'
-    homeConfigurations = {
 
-
-
-      "jack@woundwort" = home-manager.lib.homeManagerConfiguration {
-        pkgs = nixpkgs.legacyPackages.x86_64-linux; # Home-manager requires 'pkgs' instance
-        extraSpecialArgs = { inherit inputs; }; # Pass flake inputs to our config
-        # > Our main home-manager configuration file <
-
-        modules = [
-		./home-manager/home.nix
-		{
-		  home = {
-            username = "jack";
-		    homeDirectory = "/home/jack";
-          };
-		}
-	   ];
-      };
     };
-  };
 }
