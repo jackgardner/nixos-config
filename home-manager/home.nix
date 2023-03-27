@@ -45,18 +45,48 @@
 
   programs.waybar = {
     enable = true;
-    systemd = {
-      enable = true;
-#      target = "sway-session.target";
-    };
-
-    settings = {
-
-       Main = {
-	 modules-left = with config; [
+    systemd.enable = true;
+    settings = [{
+	modules-left = ["wlr/workspaces"];
+	modules-center = ["wlr/window"];
+	modules-right = [
+	  "pulseaudio"
+	  "network"
+	  "cpu"
+	  "memory"
+	  "battery"
+	  "clock"
+	  "tray"
 	];
-       };
-    };
+    	network = {
+        	interval = 1;
+        	format-alt = "{ifname}: {ipaddr}/{cidr}";
+        	format-disconnected = "Disconnected ⚠";
+        	format-ethernet = "{ifname}: {ipaddr}/{cidr}   up: {bandwidthUpBits} down: {bandwidthDownBits}";
+        	format-linked = "{ifname} (No IP) ";
+        	format-wifi = "{essid} ({signalStrength}%) ";
+      	};
+      battery = {
+        format = "{capacity}% {icon}";
+        format-alt = "{time} {icon}";
+        format-charging = "{capacity}% ";
+        format-icons = [ "" "" "" "" "" ];
+        format-plugged = "{capacity}% ";
+        states = {
+          critical = 15;
+          warning = 30;
+        };
+      };
+      clock = {
+        format-alt = "{:%Y-%m-%d}";
+        tooltip-format = "{:%Y-%m-%d | %H:%M}";
+      };
+      cpu = {
+        format = "{usage}% ";
+        tooltip = false;
+      };
+      memory = { format = "{}% "; };
+    }];
   };
   
 

@@ -20,10 +20,14 @@
     overlays = [
       # If you want to use overlays exported from other flakes:
       # neovim-nightly-overlay.overlays.default
-
-	(final: prev: {
-		waybar = hyprland.packages.waybar-hyprland;
-	})
+      (self: super: {
+	waybar = super.waybar.overrideAttrs (oldAttrs: {
+	  mesonFlags = oldAttrs.mesonFlags ++ ["-Dexperimental=true" ];
+	});
+      })
+	#(final: prev: {
+	#	waybar = hyprland.packages.waybar-hyprland;
+	#})
       # Or define it inline, for example:
       # (final: prev: {
       #   hi = final.hello.overrideAttrs (oldAttrs: {
@@ -75,14 +79,15 @@
   services.xserver.enable = true;
 
   services.xserver.displayManager.gdm.enable = true;
-  services.xserver.displayManager.gdm.wayland = false;
-  services.xserver.desktopManager.plasma5.enable = true;
+  # services.xserver.displayManager.gdm.wayland = false;
+  # services.xserver.desktopManager.plasma5.enable = true;
 
   # services.xserver.desktopManager.gnome.enable = true;
 
   services.xserver = {
     layout = "gb";
     xkbVariant = "";
+    xkbOptions = "grp:alt_space_toggle, ctrl:swapcaps";
   };
   programs.hyprland.enable = true;
   # TODO: Configure your system-wide user settings (groups, etc), add more users as needed.
