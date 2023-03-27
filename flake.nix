@@ -4,7 +4,7 @@
   inputs = {
     # Nixpkgs
     nixpkgs.url = "github:nixos/nixpkgs/nixos-22.11";
-    nixpkgs-darwin.url = "github:NixOS/nixpkgs/nixpkgs-22.11-darwin";
+    nixpkgs-darwin.url = "github:nixos/nixpkgs/nixpkgs-22.11-darwin";
     nixpkgs-master.url = "github:NixOS/nixpkgs/master";
 
     # Home manager
@@ -57,9 +57,9 @@
                 }
 
                 ./hosts/campion/default.nix
-                ./modules/fonts.nix
+
             ];
-            inputs = { inherit darwin nixpkgs home-manager; };
+            inputs = { inherit darwin home-manager; };
         };
     };
 
@@ -78,11 +78,11 @@
 		./home-manager/home.nix
 		{
 		  home = {
-                    username = "jack";
+            username = "jack";
 		    homeDirectory = "/home/jack";
-                  };
+          };
 		}
-	];
+	   ];
       };
     };
   };

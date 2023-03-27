@@ -1,6 +1,5 @@
 # This is your home-manager configuration file
 # Use this to configure your home environment (it replaces ~/.config/nixpkgs/home.nix)
-
 { inputs, lib, config, pkgs, ... }: {
   # You can import other home-manager modules here
   imports = [
@@ -11,14 +10,33 @@
     # ./nvim.nix
   ];
 
-  nixpkgs.config.allowUnfree = true;
-
 
   home = {
     sessionVariables = {
       EDITOR = "nvim";
     };
   };
+
+
+  home.packages = with pkgs; [
+    sops
+    kubectl
+    fishPlugins.fzf-fish
+    fzf
+
+    fishPlugins.bass
+    fishPlugins.hydro
+    #fishPlugins.grc
+    grc
+  ];
+
+  # Enable home-manager and git
+  programs.home-manager.enable = true;
+  programs.git.enable = true;
+
+  programs.git.userEmail = "me@jackg.se";
+  programs.git.userName = "Jack Gardner";
+
 
   # Add stuff for your user as you see fit:
   programs.neovim.enable = true;
@@ -29,42 +47,22 @@
         nix-config = "cd ~/Development/nixos-config";
         ls = "exa";
     };
+    interactiveShellInit = ''
+      set fish_greeting # Disable greeting
+    '';
     plugins = [
+      { name = "bass"; src = pkgs.fishPlugins.bass.src; }
+      { name = "grc"; src = pkgs.fishPlugins.grc.src; }
+      { name = "hydro"; src = pkgs.fishPlugins.hydro.src; }
+      { name = "fzf"; src = pkgs.fishPlugins.fzf-fish.src; }
       {
-        name = "fisher";
+        name = "fish-nvm";
         src = pkgs.fetchFromGitHub {
-          owner = "jorgebucaran";
-          repo = "fisher";
-          rev = "67bec738dbec2442d05d09ef72b2be82acb1d774";
-          sha256 = "1hrl22dd0aaszdanhvddvqz3aq40jp9zi2zn0v1hjnf7fx4bgpma";
-      	};
-      }
-      {
-        name = "bass";
-        src = pkgs.fetchFromGitHub {
-          owner = "edc";
-          repo = "bass";
-          rev = "master";
-          sha256 = "fl4/Pgtkojk5AE52wpGDnuLajQxHoVqyphE90IIPYFU=";
-      	};
-      }
-      {
-        name = "fzf";
-        src = pkgs.fetchFromGitHub {
-          owner = "jethrokuan";
-          repo = "fzf";
-          rev = "master";
-          sha256 = "28QW/WTLckR4lEfHv6dSotwkAKpNJFCShxmKFGQQ1Ew=";
-      	};
-      }
-      {
-        name = "hydro";
-        src = pkgs.fetchFromGitHub {
-          owner = "jorgebucaran";
-          repo = "hydro";
-          rev = "master";
-          sha256 = "zmEa/GJ9jtjzeyJUWVNSz/wYrU2FtqhcHdgxzi6ANHg=";
-      	};
+            owner = "FabioAntunes";
+            repo = "fish-nvm";
+            rev = "1.4.4";
+            sha256 = "sha256-wB1p4MWKeNdfMaJlUwkG+bJmmEMRK+ntykgkSuDf6wE=";
+        };
       }
       {
         name = "nix-env";
@@ -77,10 +75,16 @@
       }
     ];
   };
+
+  programs.tmate.enable = true;
   programs.tmux = {
     enable = true;
     keyMode = "vi";
     clock24 = true;
+    terminal = "screen-256color";
+    prefix = "C-a";
+    mouse = true;
+
     historyLimit = 10000;
     plugins = with pkgs.tmuxPlugins; [
       vim-tmux-navigator
@@ -88,38 +92,22 @@
     ];
     extraConfig = ''
       set -sg escape-time 0 # makes vim esc usable
-      new-session -s main
-      unbind C-b
-      set -g prefix C-a
-      bind -n C-a send-prefix
 
       bind '"' split-window -c "#{pane_current_path}"
       bind % split-window -h -c "#{pane_current_path}"
       bind c new-window -c "#{pane_current_path}"
-      set-option -g default-terminal "tmux-256color"
-      set -as terminal-overrides ',xterm*:Tc:sitm=\E[3m'
     '';
   };
 
   programs.bat = {
     enable = true;
     config = {
-      theme = "Github";
+      theme = "GitHub";
       italic-text = "always";
     };
   };
 
 
-  home.packages = with pkgs; [
-    exa
-  ];
-
-  # Enable home-manager and git
-  programs.home-manager.enable = true;
-  programs.git.enable = true;
-
-  programs.git.userEmail = "me@jackg.se";
-  programs.git.userName = "Jack Gardner";
 
 
   # Nicely reload system units when changing configs
