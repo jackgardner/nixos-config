@@ -38,23 +38,23 @@
         # > Our main nixos configuration file <
         modules = [ 
           ./nixos/configuration.nix
+          ./hosts/woundwort/default.nix
           ./modules/fonts.nix
           hyprland.nixosModules.default 
           inputs.home-manager.nixosModules.home-manager
           {
+            nixpkgs.overlays = [ hyprland.overlays.default ];
             networking.hostName = "woundwort";
             home-manager.useGlobalPkgs = true;
             home-manager.useUserPackages = true;
             home-manager.extraSpecialArgs = { inherit inputs; };
-            home-manager.users.jack = import [ 
-              ./common/default.nix 
-              ./hosts/woundwort/home.nix
-            ];
+            home-manager.users.jack = {
+              imports = [
+                ./common/default.nix 
+                ./hosts/woundwort/home.nix
+              ];
+            };
           }
-          {
-            nixpkgs.overlays = [ hyprland.overlays.default ];
-          }
-          ./hosts/woundwort/default.nix
       	];
         inputs = { inherit darwin home-manager; };
       };
