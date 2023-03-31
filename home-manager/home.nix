@@ -28,9 +28,10 @@
     fishPlugins.fzf-fish
     fzf
     vscode
-    fishPlugins.bass
-    fishPlugins.hydro
+    #fishPlugins.bass
+    #fishPlugins.hydro
     #fishPlugins.grc
+    fishPlugins.foreign-env
     grc
     jetbrains.goland
     jetbrains.datagrip
@@ -135,6 +136,7 @@
       { name = "grc"; src = pkgs.fishPlugins.grc.src; }
       { name = "hydro"; src = pkgs.fishPlugins.hydro.src; }
       { name = "fzf"; src = pkgs.fishPlugins.fzf-fish.src; }
+      { name = "foreign-env"; src = pkgs.fishPlugins.foreign-env.src; }
       # {
       #   name = "fish-nvm";
       #   src = pkgs.fetchFromGitHub {

@@ -8,11 +8,11 @@
 
   system.defaults.dock.autohide = true;
   system.defaults.dock.mru-spaces = false;
-  system.defaults.dock.orientation = "left";
+  system.defaults.dock.orientation = "bottom";
   system.defaults.dock.showhidden = true;
+  programs.fish.enable = true;
 
 
-  users.users.jack.shell = pkgs.fish;
   # if you use zsh (the default on new macOS installations),
   # you'll need to enable this so nix-darwin creates a zshrc sourcing needed environment changes
   # bash is enabled by default
@@ -30,23 +30,33 @@
       "fzf"
       "lazydocker"
       "lazygit"
-
+      "git-delta"
+      "go"
       "jsonnet"
       "terraform"
+      "tilt"
+      "xz"
+      "findutils"
+      "buildifier"
+      "gnu-sed"
     ];
     casks = [
 
     ];
   };
-
+  environment.shellInit = ''
+     eval "$(${config.homebrew.brewPrefix}/brew shellenv)"
+  '';
   environment.systemPackages = with pkgs; [
     exa
     gnused
     gawk
+    nodejs
+    nodePackages.pnpm
   ];
 
-  programs.fish.enable = true;
   environment.shells = with pkgs; [ bashInteractive zsh fish ];
+  users.users.jack.shell = pkgs.fish;
 
 
 
