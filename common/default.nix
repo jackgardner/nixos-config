@@ -9,8 +9,6 @@
     # ./nvim.nix
   ];
 
-
-  # wayland.windowManager.hyprland.enabled = true;
   home = {
     sessionVariables = {
       EDITOR = "nvim";
@@ -22,12 +20,12 @@
     exa
     sops
     kubectl
-    fishPlugins.fzf-fish
+    # fishPlugins.fzf-fish
     fzf
     #fishPlugins.bass
     #fishPlugins.hydro
     #fishPlugins.grc
-    fishPlugins.foreign-env
+    # fishPlugins.foreign-env
     grc
   ];
 
@@ -68,7 +66,6 @@
     ];
   };
   programs.tmate.enable = true;
-  programs.firefox.enable = true;
   programs.tmux = {
     enable = true;
     keyMode = "vi";

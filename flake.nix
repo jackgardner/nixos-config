@@ -46,7 +46,10 @@
             home-manager.useGlobalPkgs = true;
             home-manager.useUserPackages = true;
             home-manager.extraSpecialArgs = { inherit inputs; };
-            home-manager.users.jack = import ./common/default.nix;
+            home-manager.users.jack = import [ 
+              ./common/default.nix 
+              ./hosts/woundwort/home.nix
+            ];
           }
           {
             nixpkgs.overlays = [ hyprland.overlays.default ];
@@ -61,27 +64,24 @@
         campion = darwin.lib.darwinSystem {
             system = "aarch64-darwin";
             modules = [
+                ./hosts/campion/default.nix
                 home-manager.darwinModules.home-manager
                 {
-                    #nixpkgs.overlays = overlays;
-                    #system.darwinLabel = "${config.system.darwinLabel}@${rev}";
                     networking.hostName = "campion";
                     nixpkgs.config.allowUnfree = true;
                     home-manager.useGlobalPkgs = true;
                     home-manager.useUserPackages = true;
                     home-manager.extraSpecialArgs = { inherit inputs; };
-                    home-manager.users.jack = import ./common/default.nix;
+                    home-manager.users.jack = {
+                      imports = [
+                        ./common/default.nix 
+                        ./hosts/campion/home.nix
+                      ];
+                    };
                 }
-
-                ./hosts/campion/default.nix
-
             ];
             inputs = { inherit darwin home-manager; };
         };
     };
-
-    # Standalone home-manager configuration entrypoint
-    # Available through 'home-manager --flake .#your-username@your-hostname'
-
-    };
+  };
 }

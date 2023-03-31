@@ -21,23 +21,12 @@
 
 
   home.packages = with pkgs; [
-    exa
     kitty
-    sops
-    kubectl
-    fishPlugins.fzf-fish
-    fzf
     vscode
-    #fishPlugins.bass
-    #fishPlugins.hydro
-    #fishPlugins.grc
-    fishPlugins.foreign-env
-    grc
     jetbrains.goland
     jetbrains.datagrip
     wofi
     waybar
-    
     slack
   ];
 
@@ -50,6 +39,7 @@
 
 
   # Add stuff for your user as you see fit:
+  programs.firefox.enable = true;
 
   programs.waybar = {
     enable = true;
