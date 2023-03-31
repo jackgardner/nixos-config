@@ -19,15 +19,11 @@
     # You can add overlays here
     overlays = [
       # If you want to use overlays exported from other flakes:
-      # neovim-nightly-overlay.overlays.default
       (self: super: {
-	waybar = super.waybar.overrideAttrs (oldAttrs: {
-	  mesonFlags = oldAttrs.mesonFlags ++ ["-Dexperimental=true" ];
-	});
+        waybar = super.waybar.overrideAttrs (oldAttrs: {
+          mesonFlags = oldAttrs.mesonFlags ++ [ "-Dexperimental=true" ];
+        });
       })
-	#(final: prev: {
-	#	waybar = hyprland.packages.waybar-hyprland;
-	#})
       # Or define it inline, for example:
       # (final: prev: {
       #   hi = final.hello.overrideAttrs (oldAttrs: {
@@ -56,11 +52,20 @@
       experimental-features = "nix-command flakes";
       # Deduplicate and optimize nix store
       auto-optimise-store = true;
+      substituters = ["https://hyprland.cachix.org"];
+      trusted-public-keys = ["hyprland.cachix.org-1:a7pgxzMz7+chwVL3/pzj6jIBMioiJM7ypFP8PwtkuGc="];
     };
   };
 
   # FIXME: Add the rest of your current configuration
 
+  environment.systemPackages = with pkgs; [
+    go
+	  waybar-hyprland
+    python3
+    nodejs
+    nodePackages.pnpm
+  ];
   console.keyMap = "uk";
   # TODO: Set your hostname
   networking.networkmanager.enable = true;
@@ -68,7 +73,6 @@
   time.timeZone = "Europe/London";
 
   i18n.defaultLocale = "en_GB.UTF-8";
-
 
 
   # TODO: This is just an example, be sure to use whatever bootloader you prefer
@@ -82,14 +86,17 @@
   # services.xserver.displayManager.gdm.wayland = false;
   # services.xserver.desktopManager.plasma5.enable = true;
 
-  # services.xserver.desktopManager.gnome.enable = true;
+  services.xserver.desktopManager.gnome.enable = true;
 
   services.xserver = {
     layout = "gb";
     xkbVariant = "";
-    xkbOptions = "grp:alt_space_toggle, ctrl:swapcaps";
+    xkbOptions = "ctrl:swapcaps";
+
+    libinput.enable = true;
   };
   programs.hyprland.enable = true;
+  programs.fish.enable = true;
   # TODO: Configure your system-wide user settings (groups, etc), add more users as needed.
   users.users = {
     # FIXME: Replace with your username
@@ -112,10 +119,12 @@
   # Feel free to remove if you don't need it.
   services.openssh = {
     enable = true;
-    # Forbid root login through SSH.
-    permitRootLogin = "no";
-    # Use keys only. Remove if you want to SSH using password (not recommended)
-    passwordAuthentication = false;
+    settings = {
+      # Forbid root login through SSH.
+      PermitRootLogin = "no";
+      # Use keys only. Remove if you want to SSH using password (not recommended)
+      PasswordAuthentication = false; 
+    };
   };
 
   # https://nixos.wiki/wiki/FAQ/When_do_I_update_stateVersion

@@ -6,11 +6,13 @@
     # If you want to use home-manager modules from other flakes (such as nix-colors):
     inputs.nix-colors.homeManagerModule
 
+    inputs.hyprland.homeManagerModules.default
     # You can also split up your configuration and import pieces of it here:
     # ./nvim.nix
   ];
 
 
+  # wayland.windowManager.hyprland.enabled = true;
   home = {
     sessionVariables = {
       EDITOR = "nvim";
@@ -19,11 +21,13 @@
 
 
   home.packages = with pkgs; [
+    exa
+    kitty
     sops
     kubectl
     fishPlugins.fzf-fish
     fzf
-
+    vscode
     fishPlugins.bass
     fishPlugins.hydro
     #fishPlugins.grc
@@ -31,6 +35,9 @@
     jetbrains.goland
     jetbrains.datagrip
     wofi
+    waybar
+    
+    slack
   ];
 
   # Enable home-manager and git
@@ -45,27 +52,30 @@
 
   programs.waybar = {
     enable = true;
-    systemd.enable = true;
+    systemd = {
+    	enable = true;
+	    target = "graphical-session.target";
+    };
     settings = [{
-	modules-left = ["wlr/workspaces"];
-	modules-center = ["wlr/window"];
-	modules-right = [
-	  "pulseaudio"
-	  "network"
-	  "cpu"
-	  "memory"
-	  "battery"
-	  "clock"
-	  "tray"
-	];
-    	network = {
-        	interval = 1;
-        	format-alt = "{ifname}: {ipaddr}/{cidr}";
-        	format-disconnected = "Disconnected ⚠";
-        	format-ethernet = "{ifname}: {ipaddr}/{cidr}   up: {bandwidthUpBits} down: {bandwidthDownBits}";
-        	format-linked = "{ifname} (No IP) ";
-        	format-wifi = "{essid} ({signalStrength}%) ";
-      	};
+      modules-left = ["wlr/workspaces"];
+      modules-center = ["hyprland/window"];
+      modules-right = [
+        "pulseaudio"
+        "network"
+        "cpu"
+        "memory"
+        "battery"
+        "clock"
+        "tray"
+      ];
+      network = {
+        interval = 1;
+        format-alt = "{ifname}: {ipaddr}/{cidr}";
+        format-disconnected = "Disconnected ⚠";
+        format-ethernet = "{ifname}: {ipaddr}/{cidr}   up: {bandwidthUpBits} down: {bandwidthDownBits}";
+        format-linked = "{ifname} (No IP) ";
+        format-wifi = "{essid} ({signalStrength}%) ";
+      };
       battery = {
         format = "{capacity}% {icon}";
         format-alt = "{time} {icon}";
@@ -85,13 +95,31 @@
         format = "{usage}% ";
         tooltip = false;
       };
-      memory = { format = "{}% "; };
+      # memory = {
+        # format = "{capacity}% {icon}";
+        # format-alt = "{time} {icon}";
+        # format-charging = "{capacity}% ";
+        # format-icons = [ "" "" "" "" "" ];
+        # format-plugged = "{capacity}% ";
+        # states = {
+        #   critical = 15;
+        #   warning = 30;
+        # };
+      # };  
     }];
   };
   
 
-  services.swayidle.enable = true;
+  systemd.user.services.waybar = {
+    Install.WantedBy = [ "graphical-session-pre.target" ];
+  };
+  services.swayidle.enable = true; 
   programs.neovim.enable = true;
+  programs.kitty = {
+    enable = true;
+    theme = "Gruvbox Material Dark Hard";
+
+  };
   programs.fish = {
     enable = true;
     shellAliases = {
@@ -107,15 +135,15 @@
       { name = "grc"; src = pkgs.fishPlugins.grc.src; }
       { name = "hydro"; src = pkgs.fishPlugins.hydro.src; }
       { name = "fzf"; src = pkgs.fishPlugins.fzf-fish.src; }
-      {
-        name = "fish-nvm";
-        src = pkgs.fetchFromGitHub {
-            owner = "FabioAntunes";
-            repo = "fish-nvm";
-            rev = "1.4.4";
-            sha256 = "sha256-wB1p4MWKeNdfMaJlUwkG+bJmmEMRK+ntykgkSuDf6wE=";
-        };
-      }
+      # {
+      #   name = "fish-nvm";
+      #   src = pkgs.fetchFromGitHub {
+      #       owner = "FabioAntunes";
+      #       repo = "fish-nvm";
+      #       rev = "1.4.4";
+      #       sha256 = "sha256-wB1p4MWKeNdfMaJlUwkG+bJmmEMRK+ntykgkSuDf6wE=";
+      #   };
+      # }
       {
         name = "nix-env";
 	    src = pkgs.fetchFromGitHub {

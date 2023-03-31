@@ -5,7 +5,7 @@ in
 {
   fonts = {
     fontDir.enable = true;
-    # enableGhostscriptFonts = true;
+    enableGhostscriptFonts = true;
 
     fonts = with pkgs; [
       (callPackage ./comiccode.nix {})
