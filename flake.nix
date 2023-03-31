@@ -37,7 +37,6 @@
         specialArgs = { inherit inputs hyprland; }; # Pass flake inputs to our config
         # > Our main nixos configuration file <
         modules = [ 
-          ./nixos/configuration.nix
           ./hosts/woundwort/default.nix
           ./modules/fonts.nix
           hyprland.nixosModules.default 
@@ -56,7 +55,6 @@
             };
           }
       	];
-        inputs = { inherit darwin home-manager; };
       };
     };
 

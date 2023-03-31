@@ -148,7 +148,6 @@
     ];
   };
   programs.tmate.enable = true;
-  programs.firefox.enable = true;
   programs.tmux = {
     enable = true;
     keyMode = "vi";
