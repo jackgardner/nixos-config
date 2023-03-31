@@ -37,22 +37,23 @@
         specialArgs = { inherit inputs hyprland; }; # Pass flake inputs to our config
         # > Our main nixos configuration file <
         modules = [ 
-	  ./nixos/configuration.nix
-    ./modules/fonts.nix
-	  hyprland.nixosModules.default 
-	  inputs.home-manager.nixosModules.home-manager
+          ./nixos/configuration.nix
+          ./modules/fonts.nix
+          hyprland.nixosModules.default 
+          inputs.home-manager.nixosModules.home-manager
           {
-	    networking.hostName = "woundwort";
-	    home-manager.useGlobalPkgs = true;
-	    home-manager.useUserPackages = true;
-	    home-manager.extraSpecialArgs = { inherit inputs; };
-	    home-manager.users.jack = import ./home-manager/home.nix;
-	  }
-	  {
-	    nixpkgs.overlays = [ hyprland.overlays.default ];
-	  }
-
-	];
+            networking.hostName = "woundwort";
+            home-manager.useGlobalPkgs = true;
+            home-manager.useUserPackages = true;
+            home-manager.extraSpecialArgs = { inherit inputs; };
+            home-manager.users.jack = import ./common/default.nix;
+          }
+          {
+            nixpkgs.overlays = [ hyprland.overlays.default ];
+          }
+          ./hosts/woundwort/default.nix
+      	];
+        inputs = { inherit darwin home-manager; };
       };
     };
 
@@ -69,7 +70,7 @@
                     home-manager.useGlobalPkgs = true;
                     home-manager.useUserPackages = true;
                     home-manager.extraSpecialArgs = { inherit inputs; };
-                    home-manager.users.jack = import ./home-manager/home.nix;
+                    home-manager.users.jack = import ./common/default.nix;
                 }
 
                 ./hosts/campion/default.nix

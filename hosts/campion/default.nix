@@ -1,5 +1,9 @@
 { config, pkgs, inputs, ... }:
 {
+
+  imports = [
+    ./home.nix  
+  ];
   # Make sure the nix daemon always runs
   services.nix-daemon.enable = true;
   nix.package = pkgs.nix;
