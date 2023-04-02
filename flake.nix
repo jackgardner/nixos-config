@@ -27,7 +27,7 @@
 
   };
 
-  outputs = { nixpkgs, nixpkgs-darwin, nixpkgs-master, home-manager, hyprland, darwin, ... }@inputs: {
+  outputs = { nixpkgs, nixpkgs-darwin, nixos-hardware, nixpkgs-master, home-manager, hyprland, darwin, ... }@inputs: {
 
     # NixOS configuration entrypoint
     # Available through 'nixos-rebuild --flake .#your-hostname'
@@ -36,13 +36,14 @@
       woundwort = nixpkgs.lib.nixosSystem {
         specialArgs = { inherit inputs hyprland; }; # Pass flake inputs to our config
         # > Our main nixos configuration file <
-        modules = [ 
+        modules = [
+          nixos-hardware.nixosModules.lenovo-thinkpad-t480
           ./hosts/woundwort/default.nix
           ./modules/fonts.nix
-          hyprland.nixosModules.default 
+          # hyprland.nixosModules.default 
           inputs.home-manager.nixosModules.home-manager
           {
-            nixpkgs.overlays = [ hyprland.overlays.default ];
+            # nixpkgs.overlays = [ hyprland.overlays.default ];
             networking.hostName = "woundwort";
             home-manager.useGlobalPkgs = true;
             home-manager.useUserPackages = true;

@@ -20,6 +20,7 @@ in
       source-code-pro
       terminus_font
       ttf_bitstream_vera
+      font-awesome
       ubuntu_font_family
     ];
 
