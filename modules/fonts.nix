@@ -27,8 +27,8 @@ in
     fontconfig = {
       defaultFonts = {
         monospace = [ "Comic Code Ligatures" ];
-        sansSerif = [ "Comic Code Ligatures" ];
-        serif     = [ "Comic Code Ligatures" ];
+        #sansSerif = [ "Comic Code Ligatures" ];
+        #serif     = [ "Comic Code Ligatures" ];
       };
     };
   };

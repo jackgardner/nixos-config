@@ -63,7 +63,7 @@
   environment.systemPackages = with pkgs; [
     go
 	  
-    # waybar-hyprland
+    waybar-hyprland
     python3
     nodejs
     nodePackages.pnpm
@@ -87,13 +87,12 @@
   services.xserver.displayManager.gdm.enable = true;
   # services.xserver.displayManager.gdm.wayland = false;
   # services.xserver.desktopManager.plasma5.enable = true;
-  services.xserver.windowManager.bspwm.enable = true;
   services.xserver.desktopManager.gnome.enable = true;
 
   services.xserver = {
     layout = "gb";
     xkbVariant = "";
-    xkbOptions = "ctrl:swapcaps";
+    xkbOptions = "ctrl:nocaps, shift:both_capslock";
 
     libinput = {
       enable = true;
@@ -104,7 +103,7 @@
 
 
   };
-  #programs.hyprland.enable = true;
+  programs.hyprland.enable = true;
   programs.fish.enable = true;
   # TODO: Configure your system-wide user settings (groups, etc), add more users as needed.
   users.users = {

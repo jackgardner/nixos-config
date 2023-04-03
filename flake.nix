@@ -40,10 +40,10 @@
           nixos-hardware.nixosModules.lenovo-thinkpad-t480
           ./hosts/woundwort/default.nix
           ./modules/fonts.nix
-          # hyprland.nixosModules.default 
+          hyprland.nixosModules.default 
           inputs.home-manager.nixosModules.home-manager
           {
-            # nixpkgs.overlays = [ hyprland.overlays.default ];
+            nixpkgs.overlays = [ hyprland.overlays.default ];
             networking.hostName = "woundwort";
             home-manager.useGlobalPkgs = true;
             home-manager.useUserPackages = true;

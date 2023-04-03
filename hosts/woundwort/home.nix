@@ -45,7 +45,7 @@
 * {
     /* `otf-font-awesome` is required to be installed for icons */
     border: none;
-    font-family: "monospace";
+    font-family: "monospace, Font Awesome 5";
     /* Recommended font sizes: 720p: ~14px, 1080p: ~18px */
     font-size: 14px;
 }
@@ -288,7 +288,8 @@ label:focus {
       };
       "wlr/workspaces" = {
         format = "{icon}";
-        format-icons = {
+        
+        # format-icons = {
 
             # "1" =  "";
             # "2"="";
@@ -302,7 +303,7 @@ label:focus {
             # "urgent"="";
             # "focused"="";
             # "default"="";
-        };
+        # };
       };
       clock = {
         format-alt = "{:%Y-%m-%d}";
