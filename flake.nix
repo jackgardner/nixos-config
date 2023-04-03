@@ -24,10 +24,13 @@
 
     hyprland.url = "github:hyprwm/hyprland";
     hyprwm-contrib.url = "github:hyprwm/contrib";
+    hyprpaper.url = "github:hyprwm/hyprpaper";
 
   };
 
-  outputs = { nixpkgs, nixpkgs-darwin, nixos-hardware, nixpkgs-master, home-manager, hyprland, darwin, ... }@inputs: {
+  outputs = { 
+    nixpkgs, nixpkgs-darwin, nixos-hardware, nixpkgs-master, 
+    home-manager, hyprland, darwin, hyprpaper, ... }@inputs: {
 
     # NixOS configuration entrypoint
     # Available through 'nixos-rebuild --flake .#your-hostname'
@@ -54,7 +57,7 @@
                 ./hosts/woundwort/home.nix
               ];
             };
-          }
+          }          
       	];
       };
     };
