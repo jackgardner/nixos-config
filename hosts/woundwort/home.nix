@@ -14,11 +14,10 @@
     extraConfig = ''
         monitor=,preferred,auto,1
 
-        
-        exec-once = hyprpaper
+        exec-once = waybar
         input {
             kb_layout = gb
-            kb_options = "ctrl:nocaps, shift:both_capslock"
+            kb_options = "ctrl:nocaps"
 
             follow_mouse = 1
 
@@ -27,6 +26,8 @@
                 tap-to-click = false
             }
         }
+
+        
 
         general {
             # See https://wiki.hyprland.org/Configuring/Variables/ for more
@@ -113,7 +114,12 @@
         bind = $mainMod, J, togglesplit, # dwindle
         bind = $mainMod, Z, fullscreen
         bind = $mainMod, F, workspaceopt, allfloat
-        bind = $mainMod, C, centerwindow
+        bind = $mainMod, C, closewindow
+
+        # Media keys
+        bind = ,XF86AudioRaiseVolume, exec, pactl set-sink-volume @DEFAULT_SINK@ +5%
+        bind = ,XF86AudioLowerVolume, exec, pactl set-sink-volume @DEFAULT_SINK@ -5%
+        bind = ,XF86AudioMute, exec, pactl set-sink-mute @DEFAULT_SINK@ toggle
 
         # Move focus with mainMod + arrow keys
         bind = $mainMod, left, movefocus, l
@@ -153,6 +159,7 @@
         bindm = $mainMod, mouse:272, movewindow
         bindm = $mainMod, mouse:273, resizewindow
 
+        windowrule=move 0 3,title:^(Spotify)(.*)$
     '';
   };
 
@@ -193,7 +200,7 @@
 * {
     /* `otf-font-awesome` is required to be installed for icons */
     border: none;
-    font-family: "monospace, Font Awesome 5";
+    font-family: monospace, "Font Awesome 6 Free";
     /* Recommended font sizes: 720p: ~14px, 1080p: ~18px */
     font-size: 14px;
 }
@@ -483,7 +490,10 @@ label:focus {
   programs.kitty = {
     enable = true;
     theme = "Gruvbox Material Dark Hard";
-
+    font = {
+        name = "monospace";
+        size = 12;
+    };
   };
   
   programs.firefox.enable = true;

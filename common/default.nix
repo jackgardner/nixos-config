@@ -19,6 +19,7 @@
   home.packages = with pkgs; [
     exa
     sops
+    spotify
     kubectl
     # fishPlugins.fzf-fish
     fzf
@@ -40,6 +41,12 @@
 
   programs.fish = {
     enable = true;
+    functions = {
+      restartpa = ''
+        systemctl --user restart pipewire.service
+        systemctl --user restart pipewire-pulse.service
+      '';
+    };
     shellAliases = {
         drogo = "cd ~/go/src/github.com/lakahq/drogo";
         nix-config = "cd ~/Development/nixos-config";

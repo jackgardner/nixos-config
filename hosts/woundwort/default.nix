@@ -10,7 +10,7 @@
 
     # You can also split up your configuration and import pieces of it here:
     # ./users.nix
-
+  
     # Import your generated (nixos-generate-config) hardware configuration
     ./hardware-configuration.nix
   ];
@@ -67,6 +67,7 @@
     python3
     nodejs
     nodePackages.pnpm
+    pulseaudio
   ];
   console.keyMap = "uk";
   # TODO: Set your hostname
@@ -82,6 +83,8 @@
   boot.loader.efi.canTouchEfiVariables = true;
   boot.loader.efi.efiSysMountPoint = "/boot/efi";
 
+ 
+
   services.xserver.enable = true;
 
   services.xserver.displayManager.gdm.enable = true;
@@ -92,7 +95,7 @@
   services.xserver = {
     layout = "gb";
     xkbVariant = "";
-    xkbOptions = "ctrl:nocaps, shift:both_capslock";
+    xkbOptions = "ctrl:nocaps";
 
     libinput = {
       enable = true;
@@ -100,9 +103,18 @@
         tapping = false;
       };
     };
-
-
   };
+
+  hardware.pulseaudio.enable = false;
+  
+  security.rtkit.enable = true;
+  services.pipewire = {
+    enable = true;
+    alsa.enable = true;
+    alsa.support32Bit = true;
+    pulse.enable = true;
+  };
+
   programs.hyprland.enable = true;
   programs.fish.enable = true;
   # TODO: Configure your system-wide user settings (groups, etc), add more users as needed.
