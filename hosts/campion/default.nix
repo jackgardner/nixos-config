@@ -39,6 +39,7 @@
       "findutils"
       "buildifier"
       "gnu-sed"
+      "nvm"
     ];
     casks = [
 
@@ -53,6 +54,7 @@
     gawk
     nodejs
     nodePackages.pnpm
+    nodePackages.npm
   ];
 
   environment.shells = with pkgs; [ bashInteractive zsh fish ];
