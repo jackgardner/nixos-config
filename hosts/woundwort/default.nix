@@ -62,7 +62,7 @@
 
   environment.systemPackages = with pkgs; [
     go
-	  
+	  gnumake
     waybar-hyprland
     python3
     nodejs
@@ -76,7 +76,7 @@
   time.timeZone = "Europe/London";
 
   i18n.defaultLocale = "en_GB.UTF-8";
-
+  services.xserver.displayManager.gdm.wayland = true;
 
   # TODO: This is just an example, be sure to use whatever bootloader you prefer
   boot.loader.systemd-boot.enable = true;
@@ -88,19 +88,19 @@
   services.xserver.enable = true;
 
   services.xserver.displayManager.gdm.enable = true;
-  # services.xserver.displayManager.gdm.wayland = false;
   # services.xserver.desktopManager.plasma5.enable = true;
   services.xserver.desktopManager.gnome.enable = true;
 
   services.xserver = {
     layout = "gb";
     xkbVariant = "";
-    xkbOptions = "ctrl:nocaps";
-
+    xkbOptions = "ctrl:nocaps,grp:caps_toggle,grp_led:scroll";
+    exportConfiguration = true;
     libinput = {
       enable = true;
       touchpad = {
         tapping = false;
+        middleEmulation = true;
       };
     };
   };

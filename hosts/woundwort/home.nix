@@ -15,15 +15,18 @@
         monitor=,preferred,auto,1
 
         exec-once = waybar
+        env = XCURSOR_SIZE,24
         input {
             kb_layout = gb
-            kb_options = "ctrl:nocaps"
+            kb_model = pc104
+            kb_options = ctrl:nocaps
 
             follow_mouse = 1
 
             touchpad {
-                natural_scroll = no
+                natural_scroll = false
                 tap-to-click = false
+                middle_button_emulation = true
             }
         }
 
@@ -179,7 +182,7 @@
   programs.waybar = {
     enable = true;
     systemd = {
-    	enable = true;
+    	enable = false;
 	    target = "graphical-session.target";
     };
     style = ''
