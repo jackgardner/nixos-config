@@ -109,12 +109,12 @@
         bind = $mainMod, M, exit, 
         bind = $mainMod, E, exec, firefox 
         bind = $mainMod, V, togglefloating, 
-        bind = $mainMod, R, exec, wofi --show drun
+        bind = $mainMod, R, exec, rofi -show drun
         bind = $mainMod, P, pseudo, # dwindle
         bind = $mainMod, J, togglesplit, # dwindle
         bind = $mainMod, Z, fullscreen
         bind = $mainMod, F, workspaceopt, allfloat
-        bind = $mainMod, C, closewindow
+        
 
         # Media keys
         bind = ,XF86AudioRaiseVolume, exec, pactl set-sink-volume @DEFAULT_SINK@ +5%
@@ -168,10 +168,10 @@
     vscode
     jetbrains.goland
     jetbrains.datagrip
-    wofi
+    rofi
     waybar
     slack
-    hyprpaper
+    bazelisk
   ];
 
   # Add stuff for your user as you see fit:
