@@ -10,7 +10,7 @@
   ];
 
   wayland.windowManager.hyprland = {
-    enable = true;
+    enable = false;
     extraConfig = ''
         monitor=,preferred,auto,1
 
@@ -174,13 +174,14 @@
     rofi
     waybar
     slack
+    lens
     bazelisk
   ];
 
   # Add stuff for your user as you see fit:
 
   programs.waybar = {
-    enable = true;
+    enable = false;
     systemd = {
     	enable = false;
 	    target = "graphical-session.target";

@@ -68,6 +68,8 @@
     nodejs
     nodePackages.pnpm
     pulseaudio
+    awscli2
+    aws-vault
   ];
   console.keyMap = "uk";
   # TODO: Set your hostname
@@ -87,9 +89,15 @@
 
   services.xserver.enable = true;
 
-  services.xserver.displayManager.gdm.enable = true;
+  # services.xserver.displayManager.gdm.enable = true;
   # services.xserver.desktopManager.plasma5.enable = true;
-  services.xserver.desktopManager.gnome.enable = true;
+  # services.xserver.desktopManager.gnome.enable = true;
+
+  # programs.hyprland.enable = true;
+
+
+  services.xserver.displayManager.sddm.enable = true;
+  services.xserver.desktopManager.plasma5.enable = true;
 
   services.xserver = {
     layout = "gb";
@@ -115,7 +123,6 @@
     pulse.enable = true;
   };
 
-  programs.hyprland.enable = true;
   programs.fish.enable = true;
   # TODO: Configure your system-wide user settings (groups, etc), add more users as needed.
   users.users = {
