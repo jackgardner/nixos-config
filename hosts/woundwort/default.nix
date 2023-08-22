@@ -70,6 +70,7 @@
     pulseaudio
     awscli2
     aws-vault
+    neovim
   ];
   console.keyMap = "uk";
   # TODO: Set your hostname
