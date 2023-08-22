@@ -7,7 +7,7 @@ in
     fontDir.enable = true;
     enableGhostscriptFonts = true;
 
-    fonts = with pkgs; [
+    packages = with pkgs; [
       (callPackage ./comiccode.nix {})
       anonymousPro
       corefonts

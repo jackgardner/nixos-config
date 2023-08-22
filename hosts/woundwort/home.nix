@@ -169,15 +169,14 @@
   home.packages = with pkgs; [
     kitty
     vscode
-    jetbrains.goland
-    jetbrains.datagrip
     rofi
     waybar
     slack
     lens
     bazelisk
-    steam
+    
   ];
+
 
   # Add stuff for your user as you see fit:
 
